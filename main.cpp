@@ -1,11 +1,8 @@
-extern "C"
-{
 #include <errno.h>
 #include <inttypes.h>
 #include <pthread.h>
 #include <stdlib.h>
 #include <string.h>
-}
 
 #include<iostream>
 
