@@ -7,16 +7,23 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/socket.h>
+#include <time.h>
 #include <unistd.h>
 
 #include<iostream>
 
 using namespace std;
 
+void *client_routine(void *arg)
+{
+    uint16_t port = *((uint16_t *) arg);
+    cout << "client_routine: request connection to port " << port << endl;
+}
+
 void *server_routine(void *arg)
 {
     uint16_t port = *((uint16_t *) arg);
-    cout << "Listen on port " << port << endl;
+    cout << "server_routine: Listen on port " << port << endl;
 
     int sockfd = socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd < 0)
@@ -94,12 +101,21 @@ int main(int argc, char *argv[])
 	setupHandler();
 
 	pthread_t server_tid;
-
 	if (pthread_create(&server_tid, NULL, server_routine, (void *) &port))
 	{
 		cerr << "Failure creating server thread: " << strerror(errno) << endl;
 		exit(1);
 	}
+
+	struct timespec ts = {0, 5000000};
+	nanosleep(&ts, NULL);
+
+	pthread_t client_tid;
+    if (pthread_create(&client_tid, NULL, client_routine, (void *) &port))
+    {
+        cerr << "Failure creating client thread: " << strerror(errno) << endl;
+        exit(1);
+    }
 
 	pthread_join(server_tid, NULL);
 
