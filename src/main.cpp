@@ -18,6 +18,7 @@ void *client_routine(void *arg)
 {
     uint16_t port = *((uint16_t *) arg);
     cout << "client_routine: request connection to port " << port << endl;
+    return NULL;
 }
 
 void *server_routine(void *arg)
