@@ -1,24 +1,27 @@
 ##############
 
-MY_BIN_CFLAGS  = -g -O0 
-MY_BIN_LDFLAGS = -lpthread -lstdc++ -lrt
+MY_BIN_CFLAGS  = -g -O0 -c 
+MY_BIN_LDFLAGS = -lpthread -lstdc++ 
 
 PGM  = demo_wait
-OBJS = main.o
+OBJS = obj/main.o
 SRC  = src
 
 .PHONY:	clean run 
 
 all:	$(PGM)
 
-main.o:	main.cpp
-	g++ -Wall -g $(MY_BIN_CFLAGS) -c main.cpp -o $@
+obj:	
+	mkdir obj
+
+obj/main.o:	obj src/main.cpp
+	g++ -Wall -g $(MY_BIN_CFLAGS) src/main.cpp -o $@
 
 $(PGM):	$(OBJS)
 	g++ -o $@ $(OBJS) $(LIB_OBJS) $(MY_BIN_LDFLAGS)
 
 clean:
-	rm -f  $(PGM) $(OBJS) $(LIB_OBJS)
+	rm -rf  $(PGM) obj
 		
 run:	$(PGM)
 	./$(PGM)
