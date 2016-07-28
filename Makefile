@@ -4,7 +4,6 @@ MY_BIN_CFLAGS  = -g -O0
 MY_BIN_LDFLAGS = -lpthread -lstdc++ -lrt
 
 PGM  = demo_wait
-INCS = includes
 OBJS = main.o
 SRC  = src
 
@@ -13,7 +12,7 @@ SRC  = src
 all:	$(PGM)
 
 main.o:	main.cpp
-	g++ -Wall -g $(MY_BIN_CFLAGS) -I$(INCS) -c main.cpp -o $@
+	g++ -Wall -g $(MY_BIN_CFLAGS) -c main.cpp -o $@
 
 $(PGM):	$(OBJS)
 	g++ -o $@ $(OBJS) $(LIB_OBJS) $(MY_BIN_LDFLAGS)
