@@ -59,6 +59,7 @@ void *server_routine(void *arg)
                     << endl;
             exit(1);
         }
+        cout << "server_routine, new connection, socket " << newsock << endl;
     }
 
     return NULL;

@@ -39,6 +39,8 @@ void *client_routine(void *arg)
 
     if (connRtn == 0)
     {
+    	cout << "clientRoutine: connection established." << endl;
+
     	struct timespec ts = {0, 500000000};  // sleep 500 msec.
     	nanosleep(&ts, NULL);
 
