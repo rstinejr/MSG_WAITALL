@@ -73,6 +73,8 @@ void *client_routine(void *arg)
     writeMsg(sockFd, sizeof(msg2), msg2);
     writeMsg(sockFd, sizeof(msg3), msg3);
 
+    shutdown(sockFd, SHUT_RDWR);
+
     close(sockFd);
 
     return NULL;
