@@ -37,33 +37,25 @@ void *client_routine(void *arg)
     int connRtn = connect(sockFd, reinterpret_cast<struct sockaddr *>(&sockAdr),
     		              sizeof(sockAdr));
 
-    if (connRtn == 0)
+    if (connRtn != 0)
     {
-    	cout << "clientRoutine: connection established." << endl;
-
-    	struct timespec ts = {0, 500000000};  // sleep 500 msec.
-    	nanosleep(&ts, NULL);
-
-    	unsigned char dummyUDP[12] = { 0, };
-    	*((uint16_t *) dummyUDP) = (uint16_t) (random() & 0x0ffff);
-
-    	int writeCnt = write(sockFd, dummyUDP, sizeof(dummyUDP));
-    	if (writeCnt == -1)
-    	{
-    		fprintf(stderr,"Error writing to socket: %s\n", strerror(errno));
-    	}
-
-    	close(sockFd);
-
-    	threadRtn = (void *)((writeCnt == sizeof(dummyUDP)) ? 0L : -1L);
-    }
-    else
-    {
-    	threadRtn = (void *) ((unsigned) connRtn | 0L);
-    	fprintf(stderr,"connectToTcp: error in connect(), %s\n", strerror(errno));
+    	cerr << "clientRoutine: error in connect: "
+    			<< strerror(errno) << endl;
+    	return NULL;
     }
 
-    return threadRtn;
+    cout << "clientRoutine: connection established." << endl;
+
+    char msg1[] = "This is message 1";
+    char msg2[] = "...and this is message 2";
+    char msg3[] = "and this is the last message.";
+
+    uint16_t ln;
+    ln = ntohs(sizeof(msg1));
+    write(sockFd, &ln, sizeof(ln));
+    write(sockFd, msg1, sizeof(msg1));
+
+    return NULL;
 }
 
 
