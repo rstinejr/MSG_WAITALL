@@ -55,11 +55,11 @@ void *client_routine(void *arg)
 
     	close(sockFd);
 
-    	threadRtn = (void *)((writeCnt == sizeof(dummyUDP)) ? 0 : -1);
+    	threadRtn = (void *)((writeCnt == sizeof(dummyUDP)) ? 0L : -1L);
     }
     else
     {
-    	threadRtn = (void *) connRtn;
+    	threadRtn = (void *) ((unsigned) connRtn | 0L);
     	fprintf(stderr,"connectToTcp: error in connect(), %s\n", strerror(errno));
     }
 
