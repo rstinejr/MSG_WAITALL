@@ -13,13 +13,13 @@ To build and test, clone the project, cd to directory MSG_WAITALL, and enter
 
 I was looking at the *man* page for recv and I noticed the description of option ```MSG_WAITALL```:
 
-    ```
+```
     This flag requests that  the  operation  block  until  the  full
     request  is  satisfied.  However, the call may still return less
     data than requested if a signal is caught, an error  or  discon‐
     nect  occurs,  or the next data to be received is of a different
     type than that returned.
-    ```
+```
 
 Whoa!
 
