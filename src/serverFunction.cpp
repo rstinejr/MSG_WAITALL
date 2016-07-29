@@ -95,15 +95,14 @@ void *server_routine(void *arg)
             exit(1);
         }
         cout << "server_routine, new connection, socket " << newsock << endl;
-    	pthread_t child_tid;
-        if (pthread_create(&child_tid, NULL, connection_routine, (void *) &newsock))
+        pthread_attr_t detachedAttr;
+        pthread_attr_init(&detachedAttr);
+        pthread_attr_setdetachstate(&detachedAttr, PTHREAD_CREATE_DETACHED);
+        pthread_t child_tid;
+        if (pthread_create(&child_tid, &detachedAttr, connection_routine, (void *) &newsock))
     	{
     		cerr << "Failure creating connection thread: " << strerror(errno) << endl;
     	}
-        else
-        {
-        	pthread_detach(child_tid);
-        }
     }
 
     return NULL;
