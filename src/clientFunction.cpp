@@ -8,12 +8,18 @@
 #include <inttypes.h>
 #include <netinet/in.h>
 #include <sys/socket.h>
+#include <time.h>
 #include <unistd.h>
 
 #include <iostream>
 
 using namespace std;
 
+/*
+ * NOT A GOOD IDEA for general use.
+ * But to validate the receiver's use of MSG_WAITALL,
+ * send one byte at a time.
+ */
 void writeMsg(int socketFd, size_t ln, char msg[])
 {
 	uint16_t netLn = htons(ln);
@@ -28,6 +34,9 @@ void writeMsg(int socketFd, size_t ln, char msg[])
 
 void *client_routine(void *arg)
 {
+	struct timespec ts = {0, 1};
+	nanosleep( &ts, NULL);
+
     uint16_t port = *((uint16_t *) arg);
     cout << "client_routine: request connection to port " << port << endl;
     int sockFd = socket(AF_INET, SOCK_STREAM, 0);
