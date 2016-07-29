@@ -5,9 +5,9 @@ length using TCP.
 
 To build and test, clone the project, cd to directory MSG_WAITALL, and enter
 
-    ```
+```
     make clean run
-    ```
+```
 
 ## Why?
 
