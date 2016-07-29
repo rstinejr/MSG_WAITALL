@@ -21,6 +21,29 @@ void *connection_routine(void *arg)
 	int socketFd = *((int *) arg);
 	sleep(1);
 	cout << "connectin_routine: read socket " << socketFd << endl;
+
+	for ( ; ; )
+	{
+		uint16_t len;
+		int byteCount = recv(socketFd, &len, sizeof(len), MSG_WAITALL);
+		if (byteCount < 1)
+		{
+			break;
+		}
+		char buff[1024] = { 0, };
+		byteCount = recv(socketFd, buff, ntohs(len), MSG_WAITALL);
+		if (byteCount < 1)
+		{
+			break;
+		}
+
+		// In "real life", the message could be formatted as a
+		// serialized struct, json, XML, or some other
+		// transfer syntax.
+		cout << "connection_routine: received " << byteCount
+					<< " bytes, msg: " << buff << endl;
+	}
+
 	close(socketFd);
 	return NULL;
 }
