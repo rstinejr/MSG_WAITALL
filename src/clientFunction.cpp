@@ -61,6 +61,10 @@ void *client_routine(void *arg)
     char msg3[] = "and this is the last message.";
 
     writeMsg(sockFd, sizeof(msg1), msg1);
+    writeMsg(sockFd, sizeof(msg2), msg2);
+    writeMsg(sockFd, sizeof(msg3), msg3);
+
+    close(sockFd);
 
     return NULL;
 }
