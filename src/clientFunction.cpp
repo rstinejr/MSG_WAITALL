@@ -14,10 +14,20 @@
 
 using namespace std;
 
+void writeMsg(int socketFd, size_t ln, char msg[])
+{
+	uint16_t netLn = htons(ln);
+	send(socketFd, &netLn, 1, 0);
+	char* arr = (char *)&netLn;
+	send(socketFd, &arr[1], 1, 0);
+	for (int i = 0; i < ln; i++)
+	{
+		send(socketFd, &msg[i], 1, 0);
+	}
+}
+
 void *client_routine(void *arg)
 {
-	void *threadRtn;
-
     uint16_t port = *((uint16_t *) arg);
     cout << "client_routine: request connection to port " << port << endl;
     int sockFd = socket(AF_INET, SOCK_STREAM, 0);
@@ -50,10 +60,7 @@ void *client_routine(void *arg)
     char msg2[] = "...and this is message 2";
     char msg3[] = "and this is the last message.";
 
-    uint16_t ln;
-    ln = ntohs(sizeof(msg1));
-    write(sockFd, &ln, sizeof(ln));
-    write(sockFd, msg1, sizeof(msg1));
+    writeMsg(sockFd, sizeof(msg1), msg1);
 
     return NULL;
 }
