@@ -5,8 +5,11 @@
  *      Author: R.H. Stine, Jr.
  */
 #include <arpa/inet.h>
+#include <errno.h>
 #include <inttypes.h>
 #include <netinet/in.h>
+#include <stdio.h>
+#include <string.h>
 #include <sys/socket.h>
 #include <time.h>
 #include <unistd.h>
@@ -26,7 +29,7 @@ void writeMsg(int socketFd, size_t ln, char msg[])
 	send(socketFd, &netLn, 1, 0);
 	char* arr = (char *)&netLn;
 	send(socketFd, &arr[1], 1, 0);
-	for (int i = 0; i < ln; i++)
+	for (unsigned int i = 0; i < ln; i++)
 	{
 		send(socketFd, &msg[i], 1, 0);
 	}

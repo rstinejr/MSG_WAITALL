@@ -5,10 +5,13 @@
  *  Created on: Jul 28, 2016
  *      Author: R.H. Stine, Jr.
  */
+#include <errno.h>
 #include <inttypes.h>
 #include <netdb.h>
 #include <netinet/in.h>
 #include <pthread.h>
+#include <stdlib.h>
+#include <string.h>
 #include <sys/socket.h>
 #include <unistd.h>
 
